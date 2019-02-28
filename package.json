@@ -1,0 +1,19 @@
+{
+  "name": "joi4j",
+  "version": "0.1.0",
+  "description": "Adds validation for Neo4j data types",
+  "scripts": {
+    "test": "jest"
+  },
+  "main": "index.js",
+  "repository": "https://github.com/bboure/joi4j",
+  "author": "Benoit Boure",
+  "license": "MIT",
+  "dependencies": {
+    "neo4j-driver": "^1.7.2"
+  },
+  "devDependencies": {
+    "jest": "^24.1.0",
+    "joi": "^14.3.1"
+  }
+}
