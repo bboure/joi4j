@@ -1,3 +1,5 @@
+This plugin for [Joi](https://github.com/hapijs/joi/) adds validation for Neo4j (Cypher) types that are not mapped to native javascript, as explained [here](https://neo4j.com/docs/driver-manual/current/cypher-values)
+
 # Supported types
 
 | Type | Supported |
