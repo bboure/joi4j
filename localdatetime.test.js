@@ -47,6 +47,15 @@ describe('neo4jLocalDateTime', () => {
                 }]);
             }
         });
+        
+        it('should be able to be opitonal', async () => {
+            await expect(validator.validate(
+                {},
+                validator.object().keys({
+                    date: validator.neo4jLocalDateTime(),
+                })
+            )).resolves.toBeTruthy();
+        });
     });
 
     describe('min', () => {

@@ -48,6 +48,15 @@ describe('neo4jDate', () => {
                 }]);
             }
         });
+        
+        it('should be able to be opitonal', async () => {
+            await expect(validator.validate(
+                {},
+                validator.object().keys({
+                    date: validator.neo4jDate(),
+                })
+            )).resolves.toBeTruthy();
+        });
     });
 
     describe('min', () => {

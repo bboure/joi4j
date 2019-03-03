@@ -22,7 +22,7 @@ module.exports = function(name, type) {
             less: 'must be less than "{{limit}}"',
             greater: 'must be larger than "{{limit}}"',
           },
-          coerce(value, state, options) {
+          pre(value, state, options) {
             if (!(value instanceof type) && options.convert) {
                 try {
                     value = type.fromStandardDate(utils.toDate(value));
