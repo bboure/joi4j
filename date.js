@@ -30,7 +30,7 @@ module.exports = function(name, type) {
                 }
             }
             if (!(value instanceof type)) {
-                return this.createError(name + ".base", { v: value }, state, options);
+                return this.createError(name + ".base", { value: value }, state, options);
             }
 
             return value;
@@ -55,14 +55,14 @@ module.exports = function(name, type) {
               params: {
                 limit: joi.alternatives([joi.lazy(() => joi[name]()), joi.func().ref()]).required(),
               },
-              validate: generateValidate('min', (date1, date2) => utils.compare(date1, date2) < 0),
+              validate: generateValidate('less', (date1, date2) => utils.compare(date1, date2) < 0),
             },
             {
               name: 'greater',
               params: {
                 limit: joi.alternatives([joi.lazy(() => joi[name]()), joi.func().ref()]).required(),
               },
-              validate: generateValidate('min', (date1, date2) => utils.compare(date1, date2) < 0),
+              validate: generateValidate('greater', (date1, date2) => utils.compare(date1, date2) > 0),
             },
           ],
         };

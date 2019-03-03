@@ -5,8 +5,8 @@
 | Date | :white_check_mark: |
 | Time | :x: |
 | LocalTime | :x: |
-| DateTime | :x: |
-| LocalDateTime | :x: |
+| DateTime | :hammer_and_wrench: |
+| LocalDateTime | :hammer_and_wrench: |
 | Duration | :x: |
 | Point | :x: |
 
