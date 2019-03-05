@@ -9,7 +9,7 @@ describe('neo4jDateTime', () => {
         it('should convert string to neo4j.DateTime', async () => {
             const now = Date.now();
             const dnow = neo4j.types.DateTime.fromStandardDate(new Date(now));
-            
+
             const result = await validator.validate(dnow.toString(), validator.neo4jDateTime());
             expect(result).toBeInstanceOf(neo4j.types.DateTime);
             expect(result.toString()).toEqual(dnow.toString());
@@ -19,7 +19,7 @@ describe('neo4jDateTime', () => {
             const now = Date.now();
             const dnow = new Date(now);
             const neoDateTimeNow = neo4j.types.DateTime.fromStandardDate(dnow);
-            
+
             const result = await validator.validate(dnow, validator.neo4jDateTime());
             expect(result).toBeInstanceOf(neo4j.types.DateTime);
             expect(result.toString()).toEqual(neoDateTimeNow.toString());
@@ -28,7 +28,7 @@ describe('neo4jDateTime', () => {
         it('should accept a Neo4j DateTime', async () => {
             const now = Date.now();
             const dnow = neo4j.types.DateTime.fromStandardDate(new Date(now));
-            
+
             const result = await validator.validate(dnow, validator.neo4jDateTime());
             expect(result).toBeInstanceOf(neo4j.types.DateTime);
             expect(result).toEqual(dnow);
@@ -47,7 +47,7 @@ describe('neo4jDateTime', () => {
                 }]);
             }
         });
-        
+
         it('should be able to be opitonal', async () => {
             await expect(validator.validate(
                 {},
@@ -64,11 +64,11 @@ describe('neo4jDateTime', () => {
             const dnow = neo4j.types.DateTime.fromStandardDate(new Date(now));
             const same = neo4j.types.DateTime.fromStandardDate(new Date(now));
             const past = neo4j.types.DateTime.fromStandardDate(new Date(now - 1000));
-            
+
             await expect(validator.validate(dnow, validator.neo4jDateTime().min(same))).resolves.toBeTruthy();
             await expect(validator.validate(dnow, validator.neo4jDateTime().min(past))).resolves.toBeTruthy();
         });
-        
+
         it('min should work by reference', async () => {
             const now = Date.now();
             const dnow = neo4j.types.DateTime.fromStandardDate(new Date(now));
@@ -128,14 +128,14 @@ describe('neo4jDateTime', () => {
             }
         });
     });
-    
+
     describe('max', () => {
         it('max should work by value', async () => {
             const now = Date.now();
             const dnow = neo4j.types.DateTime.fromStandardDate(new Date(now));
             const same = neo4j.types.DateTime.fromStandardDate(new Date(now));
             const future = neo4j.types.DateTime.fromStandardDate(new Date(now + 1000));
-            
+
             await expect(validator.validate(dnow, validator.neo4jDateTime().max(same))).resolves.toBeTruthy();
             await expect(validator.validate(dnow, validator.neo4jDateTime().max(future))).resolves.toBeTruthy();
         });
@@ -199,16 +199,16 @@ describe('neo4jDateTime', () => {
             }
         });
     });
-    
+
     describe('greater', () => {
         it('greater should work by value', async () => {
             const now = Date.now();
             const dnow = neo4j.types.DateTime.fromStandardDate(new Date(now));
             const past = neo4j.types.DateTime.fromStandardDate(new Date(now - 1000 * 3600 * 24));
-        
+
             await expect(validator.validate(dnow, validator.neo4jDateTime().greater(past))).resolves.toBeTruthy();
         });
-        
+
         it('greater should work by reference', async () => {
             const now = Date.now();
             const dnow = neo4j.types.DateTime.fromStandardDate(new Date(now));
@@ -268,13 +268,13 @@ describe('neo4jDateTime', () => {
             }
         });
     });
-    
+
     describe('less', () => {
         it('less should work by value', async () => {
             const now = Date.now();
             const dnow = neo4j.types.DateTime.fromStandardDate(new Date(now));
             const future = neo4j.types.DateTime.fromStandardDate(new Date(now + 1000 * 3600 * 24));
-            
+
             await expect(validator.validate(dnow, validator.neo4jDateTime().less(future))).resolves.toBeTruthy();
         });
 
