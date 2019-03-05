@@ -12,9 +12,19 @@ This plugin for [Joi](https://github.com/hapijs/joi/) adds validation for Neo4j 
 | Duration | :x: |
 | Point | :white_check_mark: |
 
+
+# Install
+
+````bash
+yarn install joi4j --save
+# or
+npm install joi4j
+````
+
 # How to use
 
 ````javascript
+const joi4j = require('joi4j');
 const validator = joi.extend(joi4j);
 
 validator.validate(
