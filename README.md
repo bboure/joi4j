@@ -1,5 +1,16 @@
 This plugin for [Joi](https://github.com/hapijs/joi/) adds validation for Neo4j (Cypher) types that are not mapped to native javascript, as explained [here](https://neo4j.com/docs/driver-manual/current/cypher-values)
 
+# V 1.0.0-alpha
+
+This version is a partial rewrite for Joi >= 16.
+You now need to import the required validators individually.
+
+````js
+const { neo4jDate, neo4jPoin } = require('joi4j');
+const Joi = require('@hapi/joi').extend(neo4jDate, neo4jPoin);
+...
+````
+
 # Supported types
 
 | Type | Supported |
@@ -16,7 +27,7 @@ This plugin for [Joi](https://github.com/hapijs/joi/) adds validation for Neo4j 
 # Install
 
 ````bash
-yarn install joi4j --save
+yarn add joi4j
 # or
 npm install joi4j
 ````
@@ -24,38 +35,89 @@ npm install joi4j
 # How to use
 
 ````javascript
-const joi4j = require('joi4j');
-const validator = joi.extend(joi4j);
+// import necessary validators and extend Joi
+const { neo4jDate } = require('joi4j');
+const Joi = require('@hapi/joi').extend(neo4jDate, neo4jDateTime);
 
-validator.validate(
-    "2019-01-01",
-    validator.neo4jDate(),
-    function (error, data) {
-
-    }
-);
+try {
+  const schema = Joi.neo4jDate();
+  const date = await schema.validateAsync("2019-12-08");
+  // date is a neo4j.types.Date
+} catch (error) {
+  ...
+}
 ````
 
-# Api Reference
-## `neo4jDate` - inherits from `Any`
-Validates that the input is a correct [Neo4j Date](https://github.com/neo4j/neo4j-javascript-driver/blob/1.7/src/v1/temporal-types.js#L192) instance. If the validation `convert` option is on (enabled by default), a string or native javascript `Date` object will be converted to a Neo4j Date if specified.
+# Available validators
+## `neo4jDate` - inherits from `any`
+Validates that the input is a correct [Neo4j Date](https://github.com/neo4j/neo4j-javascript-driver/blob/1.7/src/v1/temporal-types.js#L192) instance. If the `convert` preference is `true` (enabled by default), a string or native javascript `Date` object will be converted to a Neo4j Date.
 
-[Date](https://github.com/hapijs/joi/blob/master/API.md#datemindate)'s `min`, `max`, `greater` and `less` are also available.
+````js
+const schema = Joi.neo4jDate();
+await schema.validateAsync('2019-12-08');
+````
 
-## `neo4jDateTime` - inherits from `Any`
-Validates that the input is a correct [Neo4j DateTime](https://github.com/neo4j/neo4j-javascript-driver/blob/1.7/src/v1/temporal-types.js#L305) instance. If the validation `convert` option is on (enabled by default), a string or native javascript `Date` object will be converted to a Neo4j DateTime if specified.
+### `neo4jDate.min(date)`
+Specifies the value must be greater than or equal to `date`.
 
-[Date](https://github.com/hapijs/joi/blob/master/API.md#datemindate)'s `min`, `max`, `greater` and `less` are also available.
+### `neo4jDate.max(date)`
+Specifies the value must be less than or equal to `date`.
 
-## `neo4jLocalDateTime` - inherits from `Any`
-Validates that the input is a correct [Neo4j LocalDateTime](https://github.com/neo4j/neo4j-javascript-driver/blob/1.7/src/v1/temporal-types.js#L242) instance. If the validation `convert` option is on (enabled by default), a string or native javascript `Date` object will be converted to a Neo4j LocalDateTime if specified.
+### `neo4jDate.greater(date)`
+Specifies the value must be greater than `date`.
 
-[Date](https://github.com/hapijs/joi/blob/master/API.md#datemindate)'s `min`, `max`, `greater` and `less` are also available.
+### `neo4jDate.less(date)`
+Specifies the value must be less than `date`.
 
-## `neo4jPoint` - inherits from `Any`
+## `neo4jDateTime` - inherits from `any`
+Validates that the input is a correct [Neo4j DateTime](https://github.com/neo4j/neo4j-javascript-driver/blob/1.7/src/v1/temporal-types.js#L305) instance. If the `convert` preference is `true` (enabled by default), a string or native javascript `Date`. object will be converted to a Neo4j DateTime.
+
+````js
+const schema = Joi.neo4jDateTime();
+await schema.validateAsync('2019-12-08T13:59:18+02:00');
+````
+
+### `neo4jDateTime.min(date)`
+Specifies the value must be greater than or equal to `date`.
+
+### `neo4jDateTime.max(date)`
+Specifies the value must be less than or equal to `date`.
+
+### `neo4jDateTime.greater(date)`
+Specifies the value must be greater than `date`.
+
+### `neo4jDateTime.less(date)`
+Specifies the value must be less than `date`.
+
+## `neo4jLocalDateTime` - inherits from `any`
+Validates that the input is a correct [Neo4j LocalDateTime](https://github.com/neo4j/neo4j-javascript-driver/blob/1.7/src/v1/temporal-types.js#L242) instance. If the `convert` preference is `true` (enabled by default), a string or native javascript `Date`. object will be converted to a Neo4j LocalDateTime.
+
+````js
+const schema = Joi.neo4jLocalDateTime();
+await schema.validateAsync('2019-12-08T13:59:18+02:00');
+````
+
+### `neo4jLocalDateTime.min(date)`
+Specifies the value must be greater than or equal to `date`.
+
+### `neo4jLocalDateTime.max(date)`
+Specifies the value must be less than or equal to `date`.
+
+### `neo4jLocalDateTime.greater(date)`
+Specifies the value must be greater than `date`.
+
+### `neo4jLocalDateTime.less(date)`
+Specifies the value must be less than `date`.
+
+## `neo4jPoint` - inherits from `any`
 
 Validates that the input is a correct [Neo4j Point](https://neo4j.com/docs/cypher-manual/current/syntax/spatial/).
-If the validation `convert` option is on (enabled by default), a key-value pair object will be converted to a Neo4j Point if specified. If not provided, the srid will be assumed from the keys.
+If the `convert` preference is `true` (enabled by default), a key-value pair object will be converted to a Neo4j Point if specified. If not provided, the srid will be assumed from the keys.
+
+````js
+const schema = Joi.neo4jPoint();
+await schema.validateAsync({ lon: 2.154007, lat: 41.390205 });
+````
 
 #### `neo4jPoint.coordinates()`
 
