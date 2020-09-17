@@ -1,19 +1,39 @@
 {
   "name": "joi4j",
-  "version": "0.1.2",
+  "version": "1.0.0-alpha.1",
   "description": "Adds validation for Neo4j data types",
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "build": "babel src/ -d lib/ --delete-dir-on-start --ignore **/*.test.js",
+    "prepare": "yarn run build"
   },
-  "main": "index.js",
+  "files": [
+    "/lib"
+  ],
+  "main": "lib/index.js",
   "repository": "https://github.com/bboure/joi4j",
   "author": "Benoit Boure",
   "license": "MIT",
   "dependencies": {
-    "neo4j-driver": "^1.7.2"
+    "@babel/cli": "^7.7.5",
+    "@hapi/joi": "^16.1.8",
+    "neo4j-driver": "^4.1.2"
   },
   "devDependencies": {
-    "jest": "^24.1.0",
-    "joi": "^14.3.1"
+    "@babel/core": "^7.0.0",
+    "@babel/plugin-transform-modules-commonjs": "^7.7.5",
+    "@babel/preset-env": "^7.0.0",
+    "@babel/register": "^7.0.0",
+    "babel-core": "^7.0.0-bridge.0",
+    "babel-eslint": "^10.0.3",
+    "babel-jest": "^24.1.0",
+    "babel-loader": "^8.0.0",
+    "eslint": "^5.15.1",
+    "eslint-config-airbnb-base": "^14.0.0",
+    "eslint-plugin-import": "^2.16.0",
+    "eslint-plugin-jest": "^22.3.2",
+    "eslint-plugin-node": "^8.0.1",
+    "eslint-plugin-promise": "^4.0.1",
+    "jest": "^24.1.0"
   }
 }
