@@ -1,4 +1,4 @@
-const neo4j = require('neo4j-driver').v1;
+const neo4j = require('neo4j-driver');
 
 const isCartesian = (point) => [9157, 7203].includes(point.srid);
 

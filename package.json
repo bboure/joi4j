@@ -17,7 +17,7 @@
   "dependencies": {
     "@babel/cli": "^7.7.5",
     "@hapi/joi": "^16.1.8",
-    "neo4j-driver": "^1.7.2"
+    "neo4j-driver": "^4.1.2"
   },
   "devDependencies": {
     "@babel/core": "^7.0.0",
