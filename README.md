@@ -1,13 +1,10 @@
 This plugin for [Joi](https://github.com/hapijs/joi/) adds validation for Neo4j (Cypher) types that are not mapped to native javascript, as explained [here](https://neo4j.com/docs/driver-manual/current/cypher-values)
 
-# V 1.0.0-alpha
-
-This version is a partial rewrite for Joi >= 16.
-You now need to import the required validators individually.
+# Usage
 
 ````js
 const { neo4jDate, neo4jPoin } = require('joi4j');
-const Joi = require('@hapi/joi').extend(neo4jDate, neo4jPoin);
+const Joi = require('joi').extend(neo4jDate, neo4jPoint);
 ...
 ````
 
