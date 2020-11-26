@@ -2,13 +2,21 @@ env:
   browser: true
   es6: true
   jest/globals: true
-extends: airbnb-base
+
+extends:
+  - prettier
+  - prettier/@typescript-eslint
+  - plugin:prettier/recommended
+  - plugin:@typescript-eslint/recommended
+
 globals:
   Atomics: readonly
   SharedArrayBuffer: readonly
+
 parserOptions:
   ecmaVersion: 2018
   sourceType: module
+
 rules:
   no-console: off
   jest/no-disabled-tests: warn
@@ -16,6 +24,14 @@ rules:
   jest/no-identical-title: error
   jest/prefer-to-have-length: warn
   jest/valid-expect: error
+
 parser: babel-eslint
+
 plugins:
   - jest
+  - '@typescript-eslint'
+
+settings:
+  import/resolver:
+    node:
+      extensions: ['.js', '.ts', '.d.ts']

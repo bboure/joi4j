@@ -1,8 +1,10 @@
-import Joi from '@hapi/joi';
+import Joi, { Root } from 'joi';
 import neo4j from 'neo4j-driver';
-import { neo4jPoint } from '../index';
+import { Joi4j, neo4jPoint } from '..';
 
-const schema = Joi.extend(neo4jPoint).neo4jPoint();
+const JoiExtended: Root & Joi4j = Joi.extend(neo4jPoint);
+
+const schema = JoiExtended.neo4jPoint();
 
 describe('neo4jPoint', () => {
   describe('base', () => {
@@ -57,7 +59,10 @@ describe('neo4jPoint', () => {
     it('should convert full object to neo4j.Point', async () => {
       const point = new neo4j.types.Point(4979, 10, 20, 30);
       const input = {
-        srid: 4979, x: 10, y: 20, z: 30,
+        srid: 4979,
+        x: 10,
+        y: 20,
+        z: 30,
       };
       const result = await schema.validateAsync(input);
       expect(neo4j.spatial.isPoint(result)).toBeTruthy();
@@ -69,33 +74,51 @@ describe('neo4jPoint', () => {
       try {
         await schema.validateAsync(new neo4j.types.Point(9999, 10, 20, 30));
       } catch (error) {
-        expect(error.details[0].message).toEqual('"value" must be a valid point');
+        expect(error.details[0].message).toEqual(
+          '"value" must be a valid point',
+        );
       }
     });
 
-    [{ lat: 100, lon: 190 }, { lat: -100, lon: -190 }].forEach((point) => {
+    [
+      { lat: 100, lon: 190 },
+      { lat: -100, lon: -190 },
+    ].forEach(point => {
       it('should fail with invalid coordinates', async () => {
         expect.assertions(1);
         try {
-          await schema.validateAsync(new neo4j.types.Point(4326, point.lon, point.lat));
+          await schema.validateAsync(
+            new neo4j.types.Point(4326, point.lon, point.lat),
+          );
         } catch (error) {
-          expect(error.details[0].message).toEqual('"value" must be a valid point');
+          expect(error.details[0].message).toEqual(
+            '"value" must be a valid point',
+          );
         }
       });
 
       it('should fail with invalid 3D coordinates', async () => {
         expect.assertions(1);
         try {
-          await schema.validateAsync(new neo4j.types.Point(4979, point.lon, point.lat, 30));
+          await schema.validateAsync(
+            new neo4j.types.Point(4979, point.lon, point.lat, 30),
+          );
         } catch (error) {
-          expect(error.details[0].message).toEqual('"value" must be a valid point');
+          expect(error.details[0].message).toEqual(
+            '"value" must be a valid point',
+          );
         }
       });
+    });
+
+    it('should accept null values', async () => {
+      const result = await schema.allow(null).validateAsync(null);
+      expect(result).toBeNull();
     });
   });
 
   describe('coordinates', () => {
-    [4979, 4326].forEach((srid) => {
+    [4979, 4326].forEach(srid => {
       it('should validate a coordinates Point', async () => {
         const point = new neo4j.types.Point(srid, 10, 20);
         const result = await schema.coordinates().validateAsync(point);
@@ -104,21 +127,23 @@ describe('neo4jPoint', () => {
       });
     });
 
-    [9157, 7203].forEach((srid) => {
+    [9157, 7203].forEach(srid => {
       it('should fail with invalid coordinates Point', async () => {
         expect.assertions(1);
         const point = new neo4j.types.Point(srid, 10, 20);
         try {
           await schema.coordinates().validateAsync(point);
         } catch (error) {
-          expect(error.details[0].message).toEqual('"value" must be a valid coordinates point');
+          expect(error.details[0].message).toEqual(
+            '"value" must be a valid coordinates point',
+          );
         }
       });
     });
   });
 
   describe('cartesian', () => {
-    [9157, 7203].forEach((srid) => {
+    [9157, 7203].forEach(srid => {
       it('should validate a cartesian Point', async () => {
         const point = new neo4j.types.Point(srid, 10, 20);
         const result = await schema.cartesian().validateAsync(point);
@@ -127,21 +152,23 @@ describe('neo4jPoint', () => {
       });
     });
 
-    [4979, 4326].forEach((srid) => {
+    [4979, 4326].forEach(srid => {
       it('should fail with invalid cartesian Point', async () => {
         expect.assertions(1);
         const point = new neo4j.types.Point(srid, 10, 20);
         try {
           await schema.cartesian().validateAsync(point);
         } catch (error) {
-          expect(error.details[0].message).toEqual('"value" must be a valid cartesian point');
+          expect(error.details[0].message).toEqual(
+            '"value" must be a valid cartesian point',
+          );
         }
       });
     });
   });
 
   describe('3D', () => {
-    [9157, 4979].forEach((srid) => {
+    [9157, 4979].forEach(srid => {
       it('should validate a 3D Point', async () => {
         const point = new neo4j.types.Point(srid, 10, 20, 30);
         const result = await schema.is3d().validateAsync(point);
@@ -150,21 +177,23 @@ describe('neo4jPoint', () => {
       });
     });
 
-    [7203, 4326].forEach((srid) => {
+    [7203, 4326].forEach(srid => {
       it('should fail with invalid 3D Point', async () => {
         expect.assertions(1);
         const point = new neo4j.types.Point(srid, 10, 20, 30);
         try {
           await schema.is3d().validateAsync(point);
         } catch (error) {
-          expect(error.details[0].message).toEqual('"value" must be a valid 3D point');
+          expect(error.details[0].message).toEqual(
+            '"value" must be a valid 3D point',
+          );
         }
       });
     });
   });
 
   describe('2D', () => {
-    [7203, 4326].forEach((srid) => {
+    [7203, 4326].forEach(srid => {
       it('should validate a 2D Point', async () => {
         const point = new neo4j.types.Point(srid, 10, 20);
         const result = await schema.is2d().validateAsync(point);
@@ -173,14 +202,16 @@ describe('neo4jPoint', () => {
       });
     });
 
-    [9157, 4979].forEach((srid) => {
+    [9157, 4979].forEach(srid => {
       it('should fail with invalid 2D Point', async () => {
         expect.assertions(1);
         const point = new neo4j.types.Point(srid, 10, 20);
         try {
           await schema.is2d().validateAsync(point);
         } catch (error) {
-          expect(error.details[0].message).toEqual('"value" must be a valid 2D point');
+          expect(error.details[0].message).toEqual(
+            '"value" must be a valid 2D point',
+          );
         }
       });
     });
