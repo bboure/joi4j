@@ -1,6 +1,6 @@
 {
   "name": "joi4j",
-  "version": "1.0.0-alpha.1",
+  "version": "1.0.0-beta.2",
   "description": "Adds validation for Neo4j data types",
   "repository": "https://github.com/bboure/joi4j",
   "license": "MIT",
