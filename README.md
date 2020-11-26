@@ -50,7 +50,9 @@ The library exports a type to help you extend Joi and benefit from ts autocomple
 ```ts
 import BaseJoi, { Root } from 'joi';
 import { Joi4j, neo4jPoint, neo4jDate } = require('joi4j');
+// Extend BaseJoi and add Joi4j typing
 const Joi: Root & Joi4j = BaseJoi.extend(neo4jPoint, neo4jDate);
+
 ```
 
 # Available validators
