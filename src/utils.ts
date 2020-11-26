@@ -4,7 +4,13 @@ import neo4j, {
   LocalDateTime,
 } from 'neo4j-driver';
 
-type DateTypes = string | number | Date | Neo4jDate | DateTime | LocalDateTime;
+export type DateTypes =
+  | string
+  | number
+  | Date
+  | Neo4jDate
+  | DateTime
+  | LocalDateTime;
 
 export const toDate = (value: DateTypes): Date => {
   try {

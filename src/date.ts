@@ -1,4 +1,4 @@
-import { toDate, compare } from './utils';
+import { toDate, compare, DateTypes } from './utils';
 import {
   Date as Neo4jDate,
   DateTime,
@@ -16,8 +16,8 @@ type Constructors =
 const makeDateValidator = (name: string, type: Constructors): Extension => {
   const generateValidate = (
     rule: string,
-    compareFunction: (a: any, b: any) => boolean,
-  ) => (value: any, helpers: any, args: { limit: any }) => {
+    compareFunction: (a: DateTypes, b: DateTypes) => boolean,
+  ) => (value: DateTypes, helpers: any, args: { limit: DateTypes }) => {
     if (compareFunction(value, args.limit)) {
       return value;
     }
@@ -51,7 +51,7 @@ const makeDateValidator = (name: string, type: Constructors): Extension => {
         return { value };
       },
     },
-    validate(value, { error }) {
+    validate: (value, { error }) => {
       if (value instanceof type) {
         return { value };
       }
