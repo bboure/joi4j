@@ -1,13 +1,6 @@
 {
-  "plugins": [
-    "@babel/plugin-transform-modules-commonjs"
-  ],
   "presets": [
-    ["@babel/preset-env",
-        {
-            "shippedProposals": true,
-            "targets": { "node": "10.16" }
-        }
-    ]
+    "@babel/env",
+    "@babel/preset-typescript"
   ]
 }

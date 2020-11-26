@@ -1,5 +1,5 @@
 module.exports = {
   globals: {
-      "TZ": 'UTC',
-    }
-}
+    TZ: 'UTC',
+  },
+};
